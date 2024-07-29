@@ -1,0 +1,238 @@
+\documentclass[
+        paper=a4,       % Seitenformat
+        fontsize=11pt,  % Schriftgröße
+        oneside,        % einseitig
+        headsepline,    % Trennlinie für die Kopfzeile
+        notitlepage     % keine extra Titelseite
+]{scrartcl}             % KOMA-Script Article
+%------------------------------------------------------------------------
+
+\usepackage[automark]{scrlayer-scrpage}     % Seiten-Stil für scrartcl
+\usepackage[top=25mm]{geometry}  		    % Oberer Rand 25mm Einrückung
+\usepackage[utf8]{inputenc}                 % Eingabekodierungen
+\usepackage[T1]{fontenc}                    % Eingabekodierungen
+\usepackage[english,ngerman]{babel}         % Mehrsprachenumgebung, Hauptsprache Deutsch
+\usepackage{setspace}                       % Zeilenabstand
+\usepackage{latexsym}                       % Latex-Symbole
+\usepackage{amsfonts,amssymb,amstext}       % Mathematische Formeln
+\usepackage{bbm}                            % bbm Schriftart
+\usepackage{graphicx}                       % Abbildungen einbinden
+\usepackage{listings}						% Programmcode einbingen
+\usepackage{xcolor}						    % Farben
+\usepackage{enumitem}                       % Aufzählungen
+\usepackage{mathptmx}                       % Times New Roman Schriftart
+\usepackage{forest}
+\usepackage{silence}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{subcaption}
+\usepackage{xparse}
+\usepackage{csquotes}
+
+\pagestyle{scrheadings}					    % Kopfzeilen nach scr-Standard		
+
+%-----------------------------------------------------------------------------------
+%%% DOKUMENT-KOPF %%%
+%-----------------------------------------------------------------------------------
+
+% Definition von Variablen für Name, Titel und Übungsgruppe
+\makeatletter
+\gdef\autor#1{\gdef\@autor{#1}}
+\def\@autor{Kein Autor}
+\gdef\titel#1{\gdef\@titel{#1}}
+\def\@titel{Kein Titel}
+\gdef\gruppe#1{\gdef\@gruppe{#1}}
+\def\@titel{Keine Gruppe}
+
+\parindent0em
+
+% Horizontale Linie mit Abstand zu den Seitenrändern
+\newcommand{\ownline}{
+    \vspace{.7em}
+    \hrule
+    \vspace{.7em}
+} 
+
+% Aufgabenkopf
+\newcommand{\aufgabe}[1]{
+    \vspace*{0.5cm}
+    \large{
+        \textbf{Aufgabe #1}
+    }
+    \normalsize\vspace*{0.5cm}
+}
+
+% Befehl zum Erzeugen des Kopfes
+\newcommand{\kopf}{
+    \ownline
+    \begin{center}
+        {\LARGE \textbf{\@titel}} \\
+        \mbox{} \\
+        {\large \@autor} \\
+    \end{center}
+    \ownline						
+}
+\makeatother
+
+% Inline code
+\definecolor{una-green}{HTML}{489324}
+\NewDocumentCommand{\codeword}{v}{\texttt{\textcolor{una-green}{#1}}}
+
+%-----------------------------------------------------------------------------------
+
+% Hier eingetragene Daten erscheinen im Dokumentkopf
+\autor{Julian Hoffmann, Christian Spreng}
+\titel{Python Software Project Planing Document}
+
+\begin{document}
+
+\pagestyle{plain}
+
+\kopf
+
+\section{Game}
+\begin{itemize}
+    \item Sudoku
+\end{itemize}
+
+\section{Role Distribution}
+\begin{itemize}
+    \item Julian: UI \& Interaction \& AI
+    \item Christian: Gamelogic \& AI
+\end{itemize}
+
+\section{Implementation}
+\textit{Because of space constraints we replaced the keyword} \codeword{self} \textit{with} \codeword{s}.\par
+\subsection{Game Class}
+The core class representing a Sudoku game instance. Handles the game board, rules, and overall game flow.
+A gamesession contains the initial boardvalues, the placed values and the difficulty.\par
+\textcolor{white}{text}\par
+
+\begin{tabular}{|p{6cm}|p{5cm}|p{4cm}|}
+    \hline
+    \textbf{Method} & \textbf{Input} & \textbf{Output} \\
+    \hline
+    \codeword{__init__(s, difficulty)} & Difficulty level. & None \\
+    \hline
+    \codeword{load_board(s, filename)} & Filename of the board. & None \\
+    \hline
+    \codeword{generate_board(s, difficulty)} & Difficulty level. & None \\
+    \hline
+    \codeword{is_valid(s, row, col, value)} & Row, column, and value. & \codeword{True} if move is valid. \\
+    \hline
+    \codeword{is_game_over(s)} & None & \codeword{True} if puzzle is solved. \\
+    \hline
+    \codeword{save_game(s, filename)} & Filename to save the game. & None \\
+    \hline
+    \codeword{get_board(s)} & None & The current game board. \\
+    \hline
+    \codeword{update_val(s, row, col, value)} & Row, column, and value. & None \\
+    \hline
+    \codeword{delete_all_values(s)} & None & None \\
+    \hline
+\end{tabular}
+
+\subsection{Player Class}
+Represents a player of the game. Stores player information and high scores.\par
+\textcolor{white}{text}\par
+
+\begin{tabular}{|p{6cm}|p{4cm}|p{5cm}|}
+    \hline
+    \textbf{Method} & \textbf{Input} & \textbf{Output} \\
+    \hline
+    \codeword{__init__(s, name, pwd)} & Name and password. & 0 (Error), 1(Success), 2(New) \\
+    \hline
+    \codeword{get_highscore(s, diffic)} & Difficulty level. & User's high score for difficulty. \\
+    \hline
+    \codeword{update_score(s, diffic, time)} & Difficulty and time. & None. \\
+    \hline
+\end{tabular}
+
+\subsection{UserInterface Class}
+Handles user interaction, displaying the game board, getting input, and providing feedback.\par
+\textcolor{white}{text}\par
+
+\begin{tabular}{|p{5cm}|p{5cm}|p{5cm}|}
+    \hline
+    \textbf{Method} & \textbf{Input} & \textbf{Output} \\
+    \hline
+    \codeword{__init__(s, game)} & Reference to the \codeword{Game} object. & None \\
+    \hline
+    \codeword{display_board(s)} & None & None \\
+    \hline
+    \codeword{get_move(s)} & None & A tuple of row, column, value. \\
+    \hline
+    \codeword{display_message(s, msg)} & Message string. & None \\
+    \hline
+    \codeword{display_highscores(s)} & None & None \\
+    \hline
+    \codeword{choose_difficulty(s)} & None & The selected difficulty level. \\
+    \hline
+\end{tabular}
+
+\subsection{HighscoreManager Class}
+Manages the overall high score list for all users.\par
+\textcolor{white}{text}\par
+
+\begin{tabular}{|p{6cm}|p{6cm}|p{3cm}|}
+    \hline
+    \textbf{Method} & \textbf{Input} & \textbf{Output} \\
+    \hline
+    \codeword{load_scores(s, file)} & Filename of the highscore file. & None \\
+    \hline
+    \codeword{save_scores(s, file)} & Filename to save high scores. & None \\
+    \hline
+    \codeword{add_score(s, p, diffic, time)} & \codeword{Player} obj, difficulty level, and time. & None \\
+    \hline
+    \codeword{get_top_scores(s, diffic, n)} & Difficulty \& \(n\) of top scores to retrieve. & High scores list. \\
+    \hline
+\end{tabular}
+
+\subsection{AIPlayer Class}
+Implements an AI player that interacts with the game like a human.\par
+\textcolor{white}{text}\par
+
+\begin{tabular}{|p{5cm}|p{5cm}|p{5cm}|}
+    \hline
+    \textbf{Method} & \textbf{Input} & \textbf{Output} \\
+    \hline
+    \codeword{__init__(s, game, diffic)} & Ref to \codeword{Game} obj and difficulty. & None \\
+    \hline
+    \codeword{make_move(s)} & None & Tuple of row, column, value of AI's move. \\
+    \hline
+    \end{tabular}
+
+\subsection{Additional Functions}
+\begin{tabular}{|p{5cm}|p{5cm}|p{5cm}|}
+    \hline
+    \textbf{Method} & \textbf{Input} & \textbf{Output} \\
+    \hline
+    \codeword{main()} & None & None \\
+    \hline
+    \codeword{load_game(filename)} & Filename of the game file. & A \codeword{Game} object. \\
+    \hline
+    \codeword{instructions()} & None & None \\
+    \hline
+    \end{tabular}
+
+\subsection{Difficulty Levels}
+\begin{tabular}{|p{5cm}|p{10cm}|}
+    \hline
+    \textbf{Difficulty} & \textbf{Description} \\
+    \hline
+    Easy & Many given numbers, easy to solve. \\
+    \hline
+    Medium & Fewer given numbers, slightly more challenging. \\
+    \hline
+    Hard & Only a few given numbers, challenging. \\
+    \hline
+    Expert & Extremely few given numbers, very difficult. \\
+    \hline
+    \end{tabular}
+
+\subsection{UI Enhancements}
+\begin{itemize}
+    \item Usage of the \codeword{curses} for improved console display (colored cells, highlighting, \dots)
+\end{itemize}
+
+\end{document}
